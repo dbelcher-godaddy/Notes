@@ -100,9 +100,19 @@ Same considerations as above for WebUI.
         - [ ] Add an option to enable/disable SDM mode for each conversation or model.
         - [ ] Modify where the conversation history is stored when SDM is enabled to ensure data isolation.
         - [ ] Restrict usage of SDM to certain AD security groups.
+        - [ ] This may or may not even be possible as there appear to be no way to dynamically change the location of stored conversations. This would mean we'd have to figure out how to modify the way WebUI stores/retrieves conversation histories/documents and dynamically change it depending upon the selected model.
+        - [ ] Level of effort to accomplish this task would be rather substantial, because it would require substantial changes to the storage patterns of WebUI.
       - [ ] Or, create duplicate WebUI site in each environment, one for non-SDM and one for SDM-only conversations.
         - [ ] This would solve the problem of data isolation as well as not requiring customized UI changes.
-
+        - [ ] Each instance of WebUI would point to different Aurora PostGRES SQL, ESSP, S3, and ElastiCache instances, thereby maintaining complete isolation of conversation histories/documents between the two instances. 
+        - [ ] Would need two different Katana APPs with different URLs (i.e. NON-SDM at caas.open-webui.dev-godaddy.com, SDM at caas.open-webui-sdm.dev-godaddy.com).
+        - [ ] We could use a [banner](https://docs.openwebui.com/features/banners#banner-options) to indicate visually whether the user is currently on the Non-SDM or the SDM version of the site. Or possibly identify a different theme for the UI.
+        - [ ] Level of effort would be relatively simple. We would need to define a Function/Pipeline to handle each request on the SDM version of the site to implement/enforce any additional handling of SDM besides data isolation. It would also require relatively small amount of UI changes.
+  - [ ] Backfill
+    - [ ] May not be possible due to the radical differences in storage between WebUI (Aurora PostGRES SQL, S3) and current CaaS storage (DDB, S3); and whatever differences between storage structures and organization which would require transformation and mapping to other WebUI entities (such as models, knowledge bases, etc.)
+      - [ ] Conversations: Probably the most difficult as it would require mappings to other WebUI entities such as knowledge bases, users, models, etc...
+      - [ ] Companions: May be possible; however, certain aspects like sharing (WebUI only has support for sharing with other AD Groups) and hypothesis which doesn't appear to be supported at all.
+      - [ ] Libraries: May be possible; would need to figure out not only where to save the documents, but also any SQL database records which may need to be updated for searching/mapping.
 ## Operations
 - [ ] Runbooks
   - [ ] Create SOPs for outages, deployments, or known issues.
