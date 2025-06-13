@@ -113,6 +113,7 @@ Same considerations as above for WebUI.
       - [ ] Conversations: Probably the most difficult as it would require mappings to other WebUI entities such as knowledge bases, users, models, etc...
       - [ ] Companions: May be possible; however, certain aspects like sharing (WebUI only has support for sharing with other AD Groups) and hypothesis which doesn't appear to be supported at all.
       - [ ] Libraries: May be possible; would need to figure out not only where to save the documents, but also any SQL database records which may need to be updated for searching/mapping.
+
 ## Operations
 - [ ] Runbooks
   - [ ] Create SOPs for outages, deployments, or known issues.
